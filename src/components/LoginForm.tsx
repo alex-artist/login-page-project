@@ -172,7 +172,7 @@ export default function LoginForm() {
                         </div>
                          {/* Forgot/Create Links */}
                         <div className='text-center text-sm'>
-                            <a href="#" className="font-bold text-gray-700 hover:underline">忘记了密码?</a>
+                            <a href="/forgot-password" className="font-bold text-gray-700 hover:underline">忘记了密码?</a>
                             <span className='mx-1 text-gray-300'>|</span>
                              <a href="/register" className="font-bold text-gray-700 hover:underline">创建账号</a>
                         </div>
