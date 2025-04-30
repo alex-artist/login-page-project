@@ -95,7 +95,7 @@ export default function LoginForm() {
             <div className="mb-8 flex flex-col items-center text-center">
                 <AppleLogo />
                 <h1 className="mt-5 text-2xl font-semibold text-gray-900">
-                    {step === 1 ? '通过 Apple 账户登录' : '输入密码'}
+                    {step === 1 ? '可更改标题' : '输入密码'}
                 </h1>
                 {step === 2 && ( <p className="mt-2 text-sm font-medium text-gray-700">{email}</p> )}
             </div>
@@ -123,35 +123,45 @@ export default function LoginForm() {
                 {error && step === 1 && ( <p id="email-error-msg" className="text-center text-sm text-red-600">{error}</p> )}
 
                 {/* Password Input Section (Only in step 2) */}
-                {step === 2 && (
-                    <div className="space-y-5 animate-fade-in"> {/* Remember to define animate-fade-in in global CSS if you want animation */}
-                        {/* Password Input */}
-                        <div className="relative">
-                            <input
-                                id="password" name="password" type="password" required value={password} onChange={handlePasswordChange}
-                                className={`block w-full rounded-lg border px-4 py-3 shadow-sm placeholder-gray-400 transition-colors duration-150 focus:border-gray-400 focus:outline-none focus:ring-0 ${error && step === 2 ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-gray-500'}`}
-                                placeholder="密码" disabled={isLoading} aria-invalid={!!(error && step === 2)} aria-describedby="password-error-msg" autoFocus
-                            />
-                        </div>
-                        {/* Password/Login error message (Only show in step 2) */}
-                        {error && step === 2 && ( <p id="password-error-msg" className="text-center text-sm text-red-600">{error}</p> )}
+{/* --- 密码输入区域 - 修改后带动画效果 --- */}
+{step === 2 && (
+                    // ↓↓↓ 添加了这个新的外层 div 来控制动画 ↓↓↓
+                    <div
+                        className="overflow-hidden transition-[max-height] duration-500 ease-in-out" // 控制动画的类
+                        style={{ maxHeight: step === 2 ? '400px' : '0px' }} // 动态高度，展开高度可调整
+                    >
+                        {/* ↓↓↓ 这是你原来那段代码，现在放在里面，并加了 pt-5 ↓↓↓ */}
+                        <div className="space-y-5 pt-5"> {/* 添加 pt-5 增加与上方间距 */}
+                            {/* Password Input */}
+                            <div className="relative">
+                                <input
+                                    id="password" name="password" type="password" required value={password} onChange={handlePasswordChange}
+                                    className={`block w-full rounded-lg border px-4 py-3 shadow-sm placeholder-gray-400 transition-colors duration-150 focus:border-gray-400 focus:outline-none focus:ring-0 ${error && step === 2 ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-gray-500'}`}
+                                    placeholder="密码" disabled={isLoading} aria-invalid={!!(error && step === 2)} aria-describedby="password-error-msg" autoFocus
+                                />
+                            </div>
+                            {/* Password/Login error message (Only show in step 2) */}
+                            {error && step === 2 && ( <p id="password-error-msg" className="text-center text-sm text-red-600">{error}</p> )}
 
-                        {/* Final Login Button */}
-                        <button type="submit"
-                                className={`relative flex w-full justify-center rounded-lg border border-transparent bg-gray-800 px-6 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-70 ${isLoading ? 'cursor-not-allowed' : ''}`}
-                                disabled={isLoading}>
-                            {isLoading && step === 2 ? <LoadingSpinner /> : '登录'}
-                        </button>
-
-                         {/* Go back link */}
-                         <div className='text-center text-sm'>
-                            <button type="button" onClick={() => { setStep(1); setError(null); setPassword(''); setIsLoading(false); }} className="font-medium text-blue-600 hover:underline focus:outline-none">
-                                返回修改邮箱
+                            {/* Final Login Button */}
+                            <button type="submit"
+                                    className={`relative flex w-full justify-center rounded-lg border border-transparent bg-gray-800 px-6 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-70 ${isLoading ? 'cursor-not-allowed' : ''}`}
+                                    disabled={isLoading}>
+                                {isLoading && step === 2 ? <LoadingSpinner /> : '登录'}
                             </button>
-                        </div>
-                    </div>
-                )}
 
+                            {/* Go back link */}
+                            <div className='text-center text-sm'>
+                                <button type="button" onClick={() => { setStep(1); setError(null); setPassword(''); setIsLoading(false); }} className="font-bold text-gray-700 hover:underline focus:outline-none">
+                                    返回修改邮箱
+                                </button>
+                            </div>
+                        </div>
+                        {/* ↑↑↑ 原来的内容结束 ↑↑↑ */}
+                    </div>
+                     /* ↑↑↑ 新的外层 div 结束 ↑↑↑ */
+                )}
+                {/* --- 密码输入区域结束 --- */}
                 {/* Links shown only in step 1 */}
                  {step === 1 && (
                      <div className="space-y-3 pt-2">
@@ -162,9 +172,9 @@ export default function LoginForm() {
                         </div>
                          {/* Forgot/Create Links */}
                         <div className='text-center text-sm'>
-                            <a href="#" className="font-medium text-blue-600 hover:underline">忘记了密码?</a>
+                            <a href="#" className="font-bold text-gray-700 hover:underline">忘记了密码?</a>
                             <span className='mx-1 text-gray-300'>|</span>
-                             <a href="/register" className="font-medium text-blue-600 hover:underline">创建 Apple 账户</a>
+                             <a href="/register" className="font-bold text-gray-700 hover:underline">创建账号</a>
                         </div>
                     </div>
                  )}
